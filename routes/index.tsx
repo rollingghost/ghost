@@ -1,27 +1,33 @@
-import { useSignal } from "@preact/signals";
-import Counter from "../islands/Counter.tsx";
-import MatrixEffect from "../islands/MatrixEffect.tsx";
+import { Head } from "$fresh/runtime.ts";
 
-export default function Home() {
-  const count = useSignal(3);
+export default function HomePage() {
   return (
-    <div class="px-4 py-8 mx-auto bg-[#86efac]">
-      <div class="max-w-screen-md mx-auto flex flex-col items-center justify-center">
-        <img
-          class="my-6"
-          src="/logo.svg"
-          width="128"
-          height="128"
-          alt="the Fresh logo: a sliced lemon dripping with juice"
-        />
-        <h1 class="text-4xl font-bold">Welcome to Fresh</h1>
-        <p class="my-4">
-          Try updating this message in the
-          <code class="mx-2">./routes/index.tsx</code> file, and refresh.
-        </p>
-        <Counter count={count} />
-        <MatrixEffect />
+    <>
+      <Head>
+        <title>Ghost</title>
+      </Head>
+      <div class="flex flex-col items-center justify-center h-screen">
+        <div>
+          <p>
+            <span class="text-red-600 w-64">
+              [error: {new Date().toDateString()}]:
+            </span>{" "}
+            <span>Cause by something</span>
+          </p>
+          <p class="mt">
+            <span class="text-green-600">
+              [info: {new Date().toDateString()}]:
+            </span>{" "}
+            <span>Something happened</span>
+          </p>
+          <p class="mt">
+            <span class="text-yellow-600">
+              [warn: {new Date().toDateString()}]:
+            </span>{" "}
+            <span>Something might happen</span>
+          </p>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
