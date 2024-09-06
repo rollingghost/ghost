@@ -1,31 +1,38 @@
-import { Handlers } from "$fresh/server.ts";
+import { Handlers, PageProps } from "$fresh/server.ts";
 import { Head } from "$fresh/runtime.ts";
 
-export const handler: Handlers = {
-    async POST(req) {
+interface User {
+    username: string;
+    email: string;
+    password: string;
+    confirmPassword: string;
+}
+
+export const handler: Handlers<User> = {
+    async POST(req, ctx) {
         const form = await req.formData();
-        const username = form.get("username");
-        const email = form.get("email");
-        const password = form.get("password");
-        const confirmPassword = form.get("confirmPassword");
-        const responseBody = JSON.stringify({
+        const username = form.get("username") as string;
+        const email = form.get("email") as string;
+        const password = form.get("password") as string;
+        const confirmPassword = form.get("confirmPassword") as string;
+        const responseBody: User = {
             username,
             email,
             password,
             confirmPassword,
-        });
-        return new Response(responseBody, {
-            headers: { "Content-Type": "application/json" },
-        });
+        };
+        return ctx.render(responseBody);
     },
 };
 
-export default function Register() {
+export default function Register(user: PageProps<User>) {
     return (
         <>
             <Head>
                 <title>Ghost | Register</title>
-                <div class="flex flex-col items-center justify-center h-screen">
+            </Head>
+            <div class="flex flex-col items-center justify-center h-screen">
+                {user.data?.username ? user.data.username : (
                     <form
                         action="/register"
                         method="POST"
@@ -95,15 +102,15 @@ export default function Register() {
                         >
                             <i className="bi bi-chevron-right"></i>
                         </button>
+                        <p className="mt-4">
+                            Already have an account?{" "}
+                            <a href="/login" className="hover:underline">
+                                Login
+                            </a>
+                        </p>
                     </form>
-                    <p className="mt-4">
-                        Already have an account?{" "}
-                        <a href="/login" className="hover:underline">
-                            Login
-                        </a>
-                    </p>
-                </div>
-            </Head>
+                )}
+            </div>
         </>
     );
 }

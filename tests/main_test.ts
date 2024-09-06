@@ -1,7 +1,7 @@
 import { createHandler, ServeHandlerInfo } from "$fresh/server.ts";
 import manifest from "../fresh.gen.ts";
 import config from "../fresh.config.ts";
-import { assert, assertEquals } from "$std/testing/asserts.ts";
+import { assertEquals } from "$std/testing/asserts.ts";
 
 const CONN_INFO: ServeHandlerInfo = {
     remoteAddr: { hostname: "127.0.0.1", port: 53496, transport: "tcp" },
@@ -28,7 +28,6 @@ Deno.test("HTTP assert test", async (t) => {
 
     await t.step("#3 GET /foo", async () => {
         const resp = await handler(new Request("http://127.0.0.1/foo"));
-        const text = await resp.text();
         assertEquals(resp.status, 404);
     });
 });
