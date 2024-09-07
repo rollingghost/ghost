@@ -1,11 +1,8 @@
 import { useSignal } from "@preact/signals";
+import Droppdown from "../islands/Dropdown.tsx";
 
 export default function Header() {
-    const isDropdownVisible = useSignal(false);
-
-    const toggleDropdown = () => {
-        isDropdownVisible.value = !isDropdownVisible.value;
-    };
+    const dropped = useSignal(false);
 
     return (
         <header className="flex flex-row p-5 font-mono border-b border-b-[#FFFFFF] 
@@ -29,35 +26,7 @@ export default function Header() {
                     <a href="/about">About</a>
                 </div>
                 <div className="relative">
-                    <button
-                        type="button"
-                        class="px-2"
-                        onClick={toggleDropdown}
-                    >
-                        <i className="bi bi-three-dots-vertical"></i>
-                    </button>
-                    {isDropdownVisible.value && (
-                        <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg z-10">
-                            <a
-                                href="/profile"
-                                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-                            >
-                                Profile
-                            </a>
-                            <a
-                                href="/settings"
-                                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-                            >
-                                Settings
-                            </a>
-                            <a
-                                href="/logout"
-                                className="block px-4 py-2 text-gray-800 hover:bg-gray-100"
-                            >
-                                Logout
-                            </a>
-                        </div>
-                    )}
+                    <Droppdown dropped={dropped} />
                 </div>
             </div>
         </header>

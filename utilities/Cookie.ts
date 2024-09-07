@@ -5,8 +5,8 @@
  * @param name - The name of the cookie to retrieve.
  * @returns The value of the specified cookie, or `null` if the cookie is not found.
  */
-export function ghostGetCookie(cookies: string, name: string): string | null {
-    const value = `; ${cookies}`;
+export function ghostGetCookie(name: string): string | null {
+    const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop()?.split(";").shift() || null;
     return null;

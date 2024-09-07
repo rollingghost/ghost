@@ -6,12 +6,17 @@ import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
 import * as $_layout from "./routes/_layout.tsx";
 import * as $about from "./routes/about.tsx";
+import * as $api_kv from "./routes/api/kv.ts";
 import * as $api_login from "./routes/api/login.ts";
 import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
 import * as $login from "./routes/login.tsx";
+import * as $logout from "./routes/logout.tsx";
 import * as $register from "./routes/register.tsx";
+import * as $settings from "./routes/settings.tsx";
 import * as $Cpu from "./islands/Cpu.tsx";
+import * as $Dropdown from "./islands/Dropdown.tsx";
+import * as $Login from "./islands/Login.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -20,14 +25,19 @@ const manifest = {
     "./routes/_app.tsx": $_app,
     "./routes/_layout.tsx": $_layout,
     "./routes/about.tsx": $about,
+    "./routes/api/kv.ts": $api_kv,
     "./routes/api/login.ts": $api_login,
     "./routes/greet/[name].tsx": $greet_name_,
     "./routes/index.tsx": $index,
     "./routes/login.tsx": $login,
+    "./routes/logout.tsx": $logout,
     "./routes/register.tsx": $register,
+    "./routes/settings.tsx": $settings,
   },
   islands: {
     "./islands/Cpu.tsx": $Cpu,
+    "./islands/Dropdown.tsx": $Dropdown,
+    "./islands/Login.tsx": $Login,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;
