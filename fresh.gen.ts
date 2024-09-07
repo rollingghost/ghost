@@ -6,14 +6,12 @@ import * as $_404 from "./routes/_404.tsx";
 import * as $_app from "./routes/_app.tsx";
 import * as $_layout from "./routes/_layout.tsx";
 import * as $about from "./routes/about.tsx";
-import * as $api_joke from "./routes/api/joke.ts";
 import * as $api_login from "./routes/api/login.ts";
 import * as $greet_name_ from "./routes/greet/[name].tsx";
 import * as $index from "./routes/index.tsx";
 import * as $login from "./routes/login.tsx";
 import * as $register from "./routes/register.tsx";
-import * as $Counter from "./islands/Counter.tsx";
-import * as $MatrixEffect from "./islands/MatrixEffect.tsx";
+import * as $Cpu from "./islands/Cpu.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -22,7 +20,6 @@ const manifest = {
     "./routes/_app.tsx": $_app,
     "./routes/_layout.tsx": $_layout,
     "./routes/about.tsx": $about,
-    "./routes/api/joke.ts": $api_joke,
     "./routes/api/login.ts": $api_login,
     "./routes/greet/[name].tsx": $greet_name_,
     "./routes/index.tsx": $index,
@@ -30,8 +27,7 @@ const manifest = {
     "./routes/register.tsx": $register,
   },
   islands: {
-    "./islands/Counter.tsx": $Counter,
-    "./islands/MatrixEffect.tsx": $MatrixEffect,
+    "./islands/Cpu.tsx": $Cpu,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;
