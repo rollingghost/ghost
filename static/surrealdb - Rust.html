@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<!-- saved from url=(0043)https://docs.rs/surrealdb/latest/surrealdb/ -->
+<html lang="en" data-theme="dark" data-docs-rs-theme="dark"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="This library provides a low-level database library implementation, a remote client and a query language definition, for SurrealDB, the ultimate cloud database for tomorrow’s applications. SurrealDB is a scalable, distributed, collaborative, document-graph database for the realtime web."><title>surrealdb - Rust</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="/-/rustdoc.static/${f}">`).join(""))</script><link rel="preload" as="font" type="font/woff2" crossorigin="" href="https://docs.rs/-/rustdoc.static/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin="" href="https://docs.rs/-/rustdoc.static/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin="" href="https://docs.rs/-/rustdoc.static/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin="" href="https://docs.rs/-/rustdoc.static/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin="" href="https://docs.rs/-/rustdoc.static/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="./surrealdb - Rust_files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="./surrealdb - Rust_files/vendored.css" media="all">
+<link rel="stylesheet" href="./surrealdb - Rust_files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../" data-static-root-path="/-/rustdoc.static/" data-current-crate="surrealdb" data-themes="" data-resource-suffix="-20240709-1.81.0-nightly-6be96e386" data-rustdoc-version="1.81.0-nightly (6be96e386 2024-07-09)" data-channel="nightly" data-search-js="search-d234aafac6c221dd.js" data-settings-js="settings-4313503d2e1961c2.js"><script src="./surrealdb - Rust_files/storage-118b08c4c78b968e.js"></script><script defer="" src="./surrealdb - Rust_files/crates-20240709-1.81.0-nightly-6be96e386.js"></script><script defer="" src="./surrealdb - Rust_files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="/-/rustdoc.static/noscript-df360f571f6edeae.css"></noscript><link rel="icon" href="https://surrealdb.s3.amazonaws.com/favicon.png"><link rel="stylesheet" href="./surrealdb - Rust_files/rustdoc-2021-12-05.css" media="all">
+
+        <link rel="search" href="https://docs.rs/-/static/opensearch.xml" type="application/opensearchdescription+xml" title="Docs.rs">
+
+        <script type="text/javascript">(function() {
+    function applyTheme(theme) {
+        if (theme) {
+            document.documentElement.dataset.docsRsTheme = theme;
+        }
+    }
+
+    window.addEventListener("storage", ev => {
+        if (ev.key === "rustdoc-theme") {
+            applyTheme(ev.newValue);
+        }
+    });
+
+    // see ./storage-change-detection.html for details
+    window.addEventListener("message", ev => {
+        if (ev.data && ev.data.storage && ev.data.storage.key === "rustdoc-theme") {
+            applyTheme(ev.data.storage.value);
+        }
+    });
+
+    applyTheme(window.localStorage.getItem("rustdoc-theme"));
+})();</script></head><div style="display: none; position: fixed; width: 100%; height: 100%; z-index: 1;"></div><body class="rustdoc-page">
+<div class="nav-container">
+    <div class="container">
+        <div class="pure-menu pure-menu-horizontal" role="navigation" aria-label="Main navigation">
+            <form action="https://docs.rs/releases/search" method="GET" id="nav-search-form" class="landing-search-form-nav  ">
+
+                
+                <a href="https://docs.rs/" class="pure-menu-heading pure-menu-link docsrs-logo" aria-label="Docs.rs">
+                    <span title="Docs.rs"><span class="fa-svg" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M290.8 48.6l78.4 29.7L288 109.5 206.8 78.3l78.4-29.7c1.8-.7 3.8-.7 5.7 0zM136 92.5V204.7c-1.3 .4-2.6 .8-3.9 1.3l-96 36.4C14.4 250.6 0 271.5 0 294.7V413.9c0 22.2 13.1 42.3 33.5 51.3l96 42.2c14.4 6.3 30.7 6.3 45.1 0L288 457.5l113.5 49.9c14.4 6.3 30.7 6.3 45.1 0l96-42.2c20.3-8.9 33.5-29.1 33.5-51.3V294.7c0-23.3-14.4-44.1-36.1-52.4l-96-36.4c-1.3-.5-2.6-.9-3.9-1.3V92.5c0-23.3-14.4-44.1-36.1-52.4l-96-36.4c-12.8-4.8-26.9-4.8-39.7 0l-96 36.4C150.4 48.4 136 69.3 136 92.5zM392 210.6l-82.4 31.2V152.6L392 121v89.6zM154.8 250.9l78.4 29.7L152 311.7 70.8 280.6l78.4-29.7c1.8-.7 3.8-.7 5.7 0zm18.8 204.4V354.8L256 323.2v95.9l-82.4 36.2zM421.2 250.9c1.8-.7 3.8-.7 5.7 0l78.4 29.7L424 311.7l-81.2-31.1 78.4-29.7zM523.2 421.2l-77.6 34.1V354.8L528 323.2v90.7c0 3.2-1.9 6-4.8 7.3z"></path></svg></span></span>
+                    <span class="title">Docs.rs</span>
+                </a><ul class="pure-menu-list">
+    <script id="crate-metadata" type="application/json">
+        
+        {
+            "name": "surrealdb",
+            "version": "1.5.4"
+        }
+    </script><li class="pure-menu-item pure-menu-has-children">
+            <a href="https://docs.rs/surrealdb/latest/surrealdb/#" class="pure-menu-link crate-name" title="A scalable, distributed, collaborative, document-graph database, for the realtime web" aria-haspopup="menu">
+                <span class="fa-svg" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M234.5 5.7c13.9-5 29.1-5 43.1 0l192 68.6C495 83.4 512 107.5 512 134.6V377.4c0 27-17 51.2-42.5 60.3l-192 68.6c-13.9 5-29.1 5-43.1 0l-192-68.6C17 428.6 0 404.5 0 377.4V134.6c0-27 17-51.2 42.5-60.3l192-68.6zM256 66L82.3 128 256 190l173.7-62L256 66zm32 368.6l160-57.1v-188L288 246.6v188z"></path></svg></span>
+                <span class="title">surrealdb-1.5.4</span>
+            </a><div class="pure-menu-children package-details-menu" role="menu">
+                
+                <ul class="pure-menu-list menu-item-divided">
+                    <li class="pure-menu-heading" id="crate-title">
+                        surrealdb 1.5.4
+                        <span id="clipboard" class="fa-svg fa-svg-fw" title="Copy crate name and version information"><svg width="24" height="25" viewBox="0 0 24 25" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-label="Copy to clipboard"><path d="M18 20h2v3c0 1-1 2-2 2H2c-.998 0-2-1-2-2V5c0-.911.755-1.667 1.667-1.667h5A3.323 3.323 0 0110 0a3.323 3.323 0 013.333 3.333h5C19.245 3.333 20 4.09 20 5v8.333h-2V9H2v14h16v-3zM3 7h14c0-.911-.793-1.667-1.75-1.667H13.5c-.957 0-1.75-.755-1.75-1.666C11.75 2.755 10.957 2 10 2s-1.75.755-1.75 1.667c0 .911-.793 1.666-1.75 1.666H4.75C3.793 5.333 3 6.09 3 7z"></path><path d="M4 19h6v2H4zM12 11H4v2h8zM4 17h4v-2H4zM15 15v-3l-4.5 4.5L15 21v-3l8.027-.032L23 15z"></path></svg></span>
+                    </li><li class="pure-menu-item">
+                        <a href="https://docs.rs/surrealdb/1.5.4/surrealdb/index.html" class="pure-menu-link description" id="permalink" title="Get a link to this specific version">
+                            <span class="fa-svg" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M579.8 267.7c56.5-56.5 56.5-148 0-204.5c-50-50-128.8-56.5-186.3-15.4l-1.6 1.1c-14.4 10.3-17.7 30.3-7.4 44.6s30.3 17.7 44.6 7.4l1.6-1.1c32.1-22.9 76-19.3 103.8 8.6c31.5 31.5 31.5 82.5 0 114L422.3 334.8c-31.5 31.5-82.5 31.5-114 0c-27.9-27.9-31.5-71.8-8.6-103.8l1.1-1.6c10.3-14.4 6.9-34.4-7.4-44.6s-34.4-6.9-44.6 7.4l-1.1 1.6C206.5 251.2 213 330 263 380c56.5 56.5 148 56.5 204.5 0L579.8 267.7zM60.2 244.3c-56.5 56.5-56.5 148 0 204.5c50 50 128.8 56.5 186.3 15.4l1.6-1.1c14.4-10.3 17.7-30.3 7.4-44.6s-30.3-17.7-44.6-7.4l-1.6 1.1c-32.1 22.9-76 19.3-103.8-8.6C74 372 74 321 105.5 289.5L217.7 177.2c31.5-31.5 82.5-31.5 114 0c27.9 27.9 31.5 71.8 8.6 103.9l-1.1 1.6c-10.3 14.4-6.9 34.4 7.4 44.6s34.4 6.9 44.6-7.4l1.1-1.6C433.5 260.8 427 182 377 132c-56.5-56.5-148-56.5-204.5 0L60.2 244.3z"></path></svg></span> Permalink
+                        </a>
+                    </li><li class="pure-menu-item">
+                        <a href="https://docs.rs/crate/surrealdb/latest" class="pure-menu-link description" title="See surrealdb in docs.rs">
+                            <span class="fa-svg" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M234.5 5.7c13.9-5 29.1-5 43.1 0l192 68.6C495 83.4 512 107.5 512 134.6V377.4c0 27-17 51.2-42.5 60.3l-192 68.6c-13.9 5-29.1 5-43.1 0l-192-68.6C17 428.6 0 404.5 0 377.4V134.6c0-27 17-51.2 42.5-60.3l192-68.6zM256 66L82.3 128 256 190l173.7-62L256 66zm32 368.6l160-57.1v-188L288 246.6v188z"></path></svg></span> Docs.rs crate page
+                        </a>
+                    </li>
+
+                    <li class="pure-menu-item">
+                        <a href="https://docs.rs/crate/surrealdb/latest" class="pure-menu-link">
+                            <span class="fa-svg" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M117.9 62.4c-16.8-5.6-25.8-23.7-20.2-40.5s23.7-25.8 40.5-20.2l113 37.7C265 15.8 290.7 0 320 0c44.2 0 80 35.8 80 80c0 3-.2 5.9-.5 8.8l122.6 40.9c16.8 5.6 25.8 23.7 20.2 40.5s-23.7 25.8-40.5 20.2L366.4 145.2c-4.5 3.2-9.3 5.9-14.4 8.2V480c0 17.7-14.3 32-32 32H128c-17.7 0-32-14.3-32-32s14.3-32 32-32H288V153.3c-21-9.2-37.2-27-44.2-49l-125.9-42zm396.3 211c-.4-.8-1.3-1.3-2.2-1.3s-1.7 .5-2.2 1.3L435.1 416H588.9L514.2 273.3zM512 224c18.8 0 36 10.4 44.7 27l77.8 148.5c3.1 5.8 6.1 14 5.5 23.8c-.7 12.1-4.8 35.2-24.8 55.1C594.9 498.6 562.2 512 512 512s-82.9-13.4-103.2-33.5c-20-20-24.2-43-24.8-55.1c-.6-9.8 2.5-18 5.5-23.8L467.3 251c8.7-16.6 25.9-27 44.7-27zM128 144c-.9 0-1.7 .5-2.2 1.3L51.1 288H204.9L130.2 145.3c-.4-.8-1.3-1.3-2.2-1.3zm44.7-21l77.8 148.5c3.1 5.8 6.1 14 5.5 23.8c-.7 12.1-4.8 35.2-24.8 55.1C210.9 370.6 178.2 384 128 384s-82.9-13.4-103.2-33.5c-20-20-24.2-43-24.8-55.1c-.6-9.8 2.5-18 5.5-23.8L83.3 123C92 106.4 109.2 96 128 96s36 10.4 44.7 27z"></path></svg></span> 
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="pure-g menu-item-divided">
+                    <div class="pure-u-1-2 right-border">
+                        <ul class="pure-menu-list">
+                            <li class="pure-menu-heading">Links</li>
+
+                            <li class="pure-menu-item">
+                                    <a href="https://github.com/surrealdb/surrealdb" class="pure-menu-link">
+                                        <span class="fa-svg" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M575.8 255.5c0 18-15 32.1-32 32.1h-32l.7 160.2c0 2.7-.2 5.4-.5 8.1V472c0 22.1-17.9 40-40 40H456c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1H416 392c-22.1 0-40-17.9-40-40V448 384c0-17.7-14.3-32-32-32H256c-17.7 0-32 14.3-32 32v64 24c0 22.1-17.9 40-40 40H160 128.1c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2H104c-22.1 0-40-17.9-40-40V360c0-.9 0-1.9 .1-2.8V287.6H32c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"></path></svg></span> Homepage
+                                    </a>
+                                </li><li class="pure-menu-item">
+                                    <a href="https://docs.rs/surrealdb/" title="Canonical documentation" class="pure-menu-link">
+                                        <span class="fa-svg" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M365.3 93.38l-74.63-74.64C278.6 6.742 262.3 0 245.4 0L64-.0001c-35.35 0-64 28.65-64 64l.0065 384c0 35.34 28.65 64 64 64H320c35.2 0 64-28.8 64-64V138.6C384 121.7 377.3 105.4 365.3 93.38zM336 448c0 8.836-7.164 16-16 16H64.02c-8.838 0-16-7.164-16-16L48 64.13c0-8.836 7.164-16 16-16h160L224 128c0 17.67 14.33 32 32 32h79.1V448zM96 280C96 293.3 106.8 304 120 304h144C277.3 304 288 293.3 288 280S277.3 256 264 256h-144C106.8 256 96 266.8 96 280zM264 352h-144C106.8 352 96 362.8 96 376s10.75 24 24 24h144c13.25 0 24-10.75 24-24S277.3 352 264 352z"></path></svg></span> Documentation
+                                    </a>
+                                </li><li class="pure-menu-item">
+                                    <a href="https://github.com/surrealdb/surrealdb" class="pure-menu-link">
+                                        <span class="fa-svg" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M80 104c13.3 0 24-10.7 24-24s-10.7-24-24-24S56 66.7 56 80s10.7 24 24 24zm80-24c0 32.8-19.7 61-48 73.3v87.8c18.8-10.9 40.7-17.1 64-17.1h96c35.3 0 64-28.7 64-64v-6.7C307.7 141 288 112.8 288 80c0-44.2 35.8-80 80-80s80 35.8 80 80c0 32.8-19.7 61-48 73.3V160c0 70.7-57.3 128-128 128H176c-35.3 0-64 28.7-64 64v6.7c28.3 12.3 48 40.5 48 73.3c0 44.2-35.8 80-80 80s-80-35.8-80-80c0-32.8 19.7-61 48-73.3V352 153.3C19.7 141 0 112.8 0 80C0 35.8 35.8 0 80 0s80 35.8 80 80zm232 0c0-13.3-10.7-24-24-24s-24 10.7-24 24s10.7 24 24 24s24-10.7 24-24zM80 456c13.3 0 24-10.7 24-24s-10.7-24-24-24s-24 10.7-24 24s10.7 24 24 24z"></path></svg></span> Repository
+                                    </a>
+                                </li><li class="pure-menu-item">
+                                <a href="https://crates.io/crates/surrealdb" class="pure-menu-link" title="See surrealdb in crates.io">
+                                    <span class="fa-svg" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M234.5 5.7c13.9-5 29.1-5 43.1 0l192 68.6C495 83.4 512 107.5 512 134.6V377.4c0 27-17 51.2-42.5 60.3l-192 68.6c-13.9 5-29.1 5-43.1 0l-192-68.6C17 428.6 0 404.5 0 377.4V134.6c0-27 17-51.2 42.5-60.3l192-68.6zM256 66L82.3 128 256 190l173.7-62L256 66zm32 368.6l160-57.1v-188L288 246.6v188z"></path></svg></span> Crates.io
+                                </a>
+                            </li>
+
+                            
+                            <li class="pure-menu-item">
+                                <a href="https://docs.rs/crate/surrealdb/latest/source/" title="Browse source of surrealdb-1.5.4" class="pure-menu-link">
+                                    <span class="fa-svg" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M88.7 223.8L0 375.8V96C0 60.7 28.7 32 64 32H181.5c17 0 33.3 6.7 45.3 18.7l26.5 26.5c12 12 28.3 18.7 45.3 18.7H416c35.3 0 64 28.7 64 64v32H144c-22.8 0-43.8 12.1-55.3 31.8zm27.6 16.1C122.1 230 132.6 224 144 224H544c11.5 0 22 6.1 27.7 16.1s5.7 22.2-.1 32.1l-112 192C453.9 474 443.4 480 432 480H32c-11.5 0-22-6.1-27.7-16.1s-5.7-22.2 .1-32.1l112-192z"></path></svg></span> Source
+                                </a>
+                            </li>
+                        </ul>
+                    </div><div class="pure-u-1-2">
+                        <ul class="pure-menu-list" id="topbar-owners">
+                            <li class="pure-menu-heading">Owners</li><li class="pure-menu-item">
+                                    <a href="https://crates.io/users/tobiemh" class="pure-menu-link">
+                                        <span class="fa-svg" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M224 256c70.7 0 128-57.3 128-128S294.7 0 224 0S96 57.3 96 128s57.3 128 128 128zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z"></path></svg></span> tobiemh
+                                    </a>
+                                </li></ul>
+                    </div>
+                </div>
+
+                <div class="pure-g menu-item-divided">
+                    <div class="pure-u-1-2 right-border">
+                        <ul class="pure-menu-list">
+                            <li class="pure-menu-heading">Dependencies</li>
+
+                            
+                            <li class="pure-menu-item">
+                                <div class="pure-menu pure-menu-scrollable sub-menu" tabindex="-1">
+                                    <ul class="pure-menu-list">
+                                        
+    <li class="pure-menu-item"><a href="https://docs.rs/bincode/%5E1.3.3" class="pure-menu-link">
+                        bincode ^1.3.3
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/async-channel/%5E1.9.0" class="pure-menu-link">
+                        async-channel ^1.9.0
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/chrono/%5E0.4.31" class="pure-menu-link">
+                        chrono ^0.4.31
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/dmp/%5E0.2.0" class="pure-menu-link">
+                        dmp ^0.2.0
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/flume/%5E0.11.0" class="pure-menu-link">
+                        flume ^0.11.0
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/futures/%5E0.3.29" class="pure-menu-link">
+                        futures ^0.3.29
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/futures-concurrency/%5E7.4.3" class="pure-menu-link">
+                        futures-concurrency ^7.4.3
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/geo/%5E0.27.0" class="pure-menu-link">
+                        geo ^0.27.0
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/indexmap/%5E2.1.0" class="pure-menu-link">
+                        indexmap ^2.1.0
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/native-tls/%5E0.2.11" class="pure-menu-link">
+                        native-tls ^0.2.11
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                                <i>optional</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/once_cell/%5E1.18.0" class="pure-menu-link">
+                        once_cell ^1.18.0
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/path-clean/%5E1.0.1" class="pure-menu-link">
+                        path-clean ^1.0.1
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/reqwest/%5E0.11.22" class="pure-menu-link">
+                        reqwest ^0.11.22
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                                <i>optional</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/revision/%5E0.7.0" class="pure-menu-link">
+                        revision ^0.7.0
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/rust_decimal/%5E1.33.1" class="pure-menu-link">
+                        rust_decimal ^1.33.1
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/rustls/%5E0.21.11" class="pure-menu-link">
+                        rustls ^0.21.11
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                                <i>optional</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/semver/%5E1.0.20" class="pure-menu-link">
+                        semver ^1.0.20
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/serde/%5E1.0.193" class="pure-menu-link">
+                        serde ^1.0.193
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/serde_json/%5E1.0.108" class="pure-menu-link">
+                        serde_json ^1.0.108
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/surrealdb-core/%5E1" class="pure-menu-link">
+                        surrealdb-core ^1
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/surrealdb-core/=2.0.0-1.5.4" class="pure-menu-link">
+                        surrealdb-core =2.0.0-1.5.4
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                                <i>optional</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/thiserror/%5E1.0.50" class="pure-menu-link">
+                        thiserror ^1.0.50
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/tokio-util/%5E0.7.10" class="pure-menu-link">
+                        tokio-util ^0.7.10
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                                <i>optional</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/tracing/%5E0.1.40" class="pure-menu-link">
+                        tracing ^0.1.40
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/trice/%5E0.4.0" class="pure-menu-link">
+                        trice ^0.4.0
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                                <i>optional</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/url/%5E2.5.0" class="pure-menu-link">
+                        url ^2.5.0
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/criterion/%5E0.5.1" class="pure-menu-link">
+                        criterion ^0.5.1
+                        
+                            <i class="dependencies dev">dev</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/env_logger/%5E0.10.1" class="pure-menu-link">
+                        env_logger ^0.10.1
+                        
+                            <i class="dependencies dev">dev</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/flate2/%5E1.0.28" class="pure-menu-link">
+                        flate2 ^1.0.28
+                        
+                            <i class="dependencies dev">dev</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/hashbrown/%5E0.14.5" class="pure-menu-link">
+                        hashbrown ^0.14.5
+                        
+                            <i class="dependencies dev">dev</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/pprof/%5E0.13.0" class="pure-menu-link">
+                        pprof ^0.13.0
+                        
+                            <i class="dependencies dev">dev</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/radix_trie/%5E0.2.1" class="pure-menu-link">
+                        radix_trie ^0.2.1
+                        
+                            <i class="dependencies dev">dev</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/rand/%5E0.8.5" class="pure-menu-link">
+                        rand ^0.8.5
+                        
+                            <i class="dependencies dev">dev</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/regex/%5E1.10.2" class="pure-menu-link">
+                        regex ^1.10.2
+                        
+                            <i class="dependencies dev">dev</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/serial_test/%5E2.0.0" class="pure-menu-link">
+                        serial_test ^2.0.0
+                        
+                            <i class="dependencies dev">dev</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/temp-dir/%5E0.1.11" class="pure-menu-link">
+                        temp-dir ^0.1.11
+                        
+                            <i class="dependencies dev">dev</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/test-log/%5E0.2.13" class="pure-menu-link">
+                        test-log ^0.2.13
+                        
+                            <i class="dependencies dev">dev</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/time/%5E0.3.30" class="pure-menu-link">
+                        time ^0.3.30
+                        
+                            <i class="dependencies dev">dev</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/tokio/%5E1.34.0" class="pure-menu-link">
+                        tokio ^1.34.0
+                        
+                            <i class="dependencies dev">dev</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/tracing-subscriber/%5E0.3.18" class="pure-menu-link">
+                        tracing-subscriber ^0.3.18
+                        
+                            <i class="dependencies dev">dev</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/ulid/%5E1.1.0" class="pure-menu-link">
+                        ulid ^1.1.0
+                        
+                            <i class="dependencies dev">dev</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/wiremock/%5E0.5.22" class="pure-menu-link">
+                        wiremock ^0.5.22
+                        
+                            <i class="dependencies dev">dev</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/tokio/%5E1.34.0" class="pure-menu-link">
+                        tokio ^1.34.0
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/tokio-tungstenite/%5E0.20.1" class="pure-menu-link">
+                        tokio-tungstenite ^0.20.1
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                                <i>optional</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/uuid/%5E1.6.1" class="pure-menu-link">
+                        uuid ^1.6.1
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/pharos/%5E0.5.3" class="pure-menu-link">
+                        pharos ^0.5.3
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/ring/%5E0.17.7" class="pure-menu-link">
+                        ring ^0.17.7
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/tokio/%5E1.34.0" class="pure-menu-link">
+                        tokio ^1.34.0
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/uuid/%5E1.6.1" class="pure-menu-link">
+                        uuid ^1.6.1
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/wasm-bindgen-futures/%5E0.4.39" class="pure-menu-link">
+                        wasm-bindgen-futures ^0.4.39
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/wasmtimer/%5E0.2.0" class="pure-menu-link">
+                        wasmtimer ^0.2.0
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                        
+                    </a>
+                </li>
+            <li class="pure-menu-item"><a href="https://docs.rs/ws_stream_wasm/%5E0.7.4" class="pure-menu-link">
+                        ws_stream_wasm ^0.7.4
+                        
+                            <i class="dependencies normal">normal</i>
+                            
+                        
+                    </a>
+                </li>
+            
+
+                                    </ul>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="pure-u-1-2">
+                        <ul class="pure-menu-list">
+                            <li class="pure-menu-heading">Versions</li>
+
+                            <li class="pure-menu-item">
+                                <div class="pure-menu pure-menu-scrollable sub-menu" id="releases-list" tabindex="-1" data-url="/crate/surrealdb/latest/menus/releases/x86_64-unknown-linux-gnu/surrealdb/index.html">
+                                    <span class="rotate"><span class="fa-svg" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"></path></svg></span></span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                    
+                    
+                    <div class="pure-g">
+                        <div class="pure-u-1">
+                            <ul class="pure-menu-list">
+                                <li>
+                                    <a href="https://docs.rs/crate/surrealdb/latest" class="pure-menu-link">
+                                        <b>53.85%</b>
+                                        of the crate is documented
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div></div>
+        </li><li class="pure-menu-item pure-menu-has-children">
+                <a href="https://docs.rs/surrealdb/latest/surrealdb/#" class="pure-menu-link" aria-label="Platform" aria-haspopup="menu">
+                    <span class="fa-svg" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M308.5 135.3c7.1-6.3 9.9-16.2 6.2-25c-2.3-5.3-4.8-10.5-7.6-15.5L304 89.4c-3-5-6.3-9.9-9.8-14.6c-5.7-7.6-15.7-10.1-24.7-7.1l-28.2 9.3c-10.7-8.8-23-16-36.2-20.9L199 27.1c-1.9-9.3-9.1-16.7-18.5-17.8C173.7 8.4 166.9 8 160 8s-13.7 .4-20.4 1.2c-9.4 1.1-16.6 8.6-18.5 17.8L115 56.1c-13.3 5-25.5 12.1-36.2 20.9L50.5 67.8c-9-3-19-.5-24.7 7.1c-3.5 4.7-6.8 9.6-9.9 14.6l-3 5.3c-2.8 5-5.3 10.2-7.6 15.6c-3.7 8.7-.9 18.6 6.2 25l22.2 19.8C32.6 161.9 32 168.9 32 176s.6 14.1 1.7 20.9L11.5 216.7c-7.1 6.3-9.9 16.2-6.2 25c2.3 5.3 4.8 10.5 7.6 15.6l3 5.2c3 5.1 6.3 9.9 9.9 14.6c5.7 7.6 15.7 10.1 24.7 7.1l28.2-9.3c10.7 8.8 23 16 36.2 20.9l6.1 29.1c1.9 9.3 9.1 16.7 18.5 17.8c6.7 .8 13.5 1.2 20.4 1.2s13.7-.4 20.4-1.2c9.4-1.1 16.6-8.6 18.5-17.8l6.1-29.1c13.3-5 25.5-12.1 36.2-20.9l28.2 9.3c9 3 19 .5 24.7-7.1c3.5-4.7 6.8-9.5 9.8-14.6l3.1-5.4c2.8-5 5.3-10.2 7.6-15.5c3.7-8.7 .9-18.6-6.2-25l-22.2-19.8c1.1-6.8 1.7-13.8 1.7-20.9s-.6-14.1-1.7-20.9l22.2-19.8zM208 176c0 26.5-21.5 48-48 48s-48-21.5-48-48s21.5-48 48-48s48 21.5 48 48zM504.7 500.5c6.3 7.1 16.2 9.9 25 6.2c5.3-2.3 10.5-4.8 15.5-7.6l5.4-3.1c5-3 9.9-6.3 14.6-9.8c7.6-5.7 10.1-15.7 7.1-24.7l-9.3-28.2c8.8-10.7 16-23 20.9-36.2l29.1-6.1c9.3-1.9 16.7-9.1 17.8-18.5c.8-6.7 1.2-13.5 1.2-20.4s-.4-13.7-1.2-20.4c-1.1-9.4-8.6-16.6-17.8-18.5L583.9 307c-5-13.3-12.1-25.5-20.9-36.2l9.3-28.2c3-9 .5-19-7.1-24.7c-4.7-3.5-9.6-6.8-14.6-9.9l-5.3-3c-5-2.8-10.2-5.3-15.6-7.6c-8.7-3.7-18.6-.9-25 6.2l-19.8 22.2c-6.8-1.1-13.8-1.7-20.9-1.7s-14.1 .6-20.9 1.7l-19.8-22.2c-6.3-7.1-16.2-9.9-25-6.2c-5.3 2.3-10.5 4.8-15.6 7.6l-5.2 3c-5.1 3-9.9 6.3-14.6 9.9c-7.6 5.7-10.1 15.7-7.1 24.7l9.3 28.2c-8.8 10.7-16 23-20.9 36.2L315.1 313c-9.3 1.9-16.7 9.1-17.8 18.5c-.8 6.7-1.2 13.5-1.2 20.4s.4 13.7 1.2 20.4c1.1 9.4 8.6 16.6 17.8 18.5l29.1 6.1c5 13.3 12.1 25.5 20.9 36.2l-9.3 28.2c-3 9-.5 19 7.1 24.7c4.7 3.5 9.5 6.8 14.6 9.8l5.4 3.1c5 2.8 10.2 5.3 15.5 7.6c8.7 3.7 18.6 .9 25-6.2l19.8-22.2c6.8 1.1 13.8 1.7 20.9 1.7s14.1-.6 20.9-1.7l19.8 22.2zM464 400c-26.5 0-48-21.5-48-48s21.5-48 48-48s48 21.5 48 48s-21.5 48-48 48z"></path></svg></span>
+                    <span class="title">Platform</span>
+                </a>
+
+                
+                <ul class="pure-menu-children" id="platforms" data-url="/crate/surrealdb/latest/menus/platforms/x86_64-unknown-linux-gnu/surrealdb/index.html" role="menu"><li class="pure-menu-item">
+            <a href="https://docs.rs/crate/surrealdb/latest/target-redirect/x86_64-unknown-linux-gnu/surrealdb/index.html" class="pure-menu-link current" data-fragment="retain" rel="nofollow">x86_64-unknown-linux-gnu</a>
+        </li></ul>
+            </li><li class="pure-menu-item">
+                <a href="https://docs.rs/crate/surrealdb/latest/features" title="Browse available feature flags of surrealdb-1.5.4" class="pure-menu-link">
+                    <span class="fa-svg" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M64 32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V32C0 14.3 14.3 0 32 0S64 14.3 64 32zm40.8 302.8c-3 .9-6 1.7-8.8 2.6V13.5C121.5 6.4 153 0 184 0c36.5 0 68.3 9.1 95.6 16.9l1.3 .4C309.4 25.4 333.3 32 360 32c26.8 0 52.9-6.8 73-14.1c9.9-3.6 17.9-7.2 23.4-9.8c2.7-1.3 4.8-2.4 6.2-3.1c.7-.4 1.1-.6 1.4-.8l.2-.1c9.9-5.6 22.1-5.6 31.9 .2S512 20.6 512 32V288c0 12.1-6.8 23.2-17.7 28.6L480 288c14.3 28.6 14.3 28.6 14.3 28.6l0 0 0 0-.1 0-.2 .1-.7 .4c-.6 .3-1.5 .7-2.5 1.2c-2.2 1-5.2 2.4-9 4c-7.7 3.3-18.5 7.6-31.5 11.9C424.5 342.9 388.8 352 352 352c-37 0-65.2-9.4-89-17.3l-1-.3c-24-8-43.7-14.4-70-14.4c-27.5 0-60.1 7-87.2 14.8z"></path></svg></span>
+                    <span class="title">Feature flags</span>
+                </a>
+            </li>
+        
+    
+</ul><div class="spacer"></div>
+                
+                
+
+<ul class="pure-menu-list">
+                    <li class="pure-menu-item pure-menu-has-children">
+                        <a href="https://docs.rs/surrealdb/latest/surrealdb/#" class="pure-menu-link" aria-label="Rust" aria-haspopup="menu">Rust</a>
+                        <ul class="pure-menu-children" role="menu">
+                            
+    <li class="pure-menu-item">
+        <a class="pure-menu-link" href="https://docs.rs/about">
+            About docs.rs
+        </a>
+    </li>
+
+                            
+    <li class="pure-menu-item">
+        <a class="pure-menu-link" href="https://foundation.rust-lang.org/policies/privacy-policy/#docs.rs" target="_blank">
+            Privacy policy
+        </a>
+    </li>
+
+                            
+    <li class="pure-menu-item">
+        <a class="pure-menu-link" href="https://www.rust-lang.org/" target="_blank">
+            Rust website
+        </a>
+    </li>
+
+                            
+    <li class="pure-menu-item">
+        <a class="pure-menu-link" href="https://doc.rust-lang.org/book/" target="_blank">
+            The Book
+        </a>
+    </li>
+
+
+                            
+    <li class="pure-menu-item">
+        <a class="pure-menu-link" href="https://doc.rust-lang.org/std/" target="_blank">
+            Standard Library API Reference
+        </a>
+    </li>
+
+
+                            
+    <li class="pure-menu-item">
+        <a class="pure-menu-link" href="https://doc.rust-lang.org/rust-by-example/" target="_blank">
+            Rust by Example
+        </a>
+    </li>
+
+
+                            
+    <li class="pure-menu-item">
+        <a class="pure-menu-link" href="https://doc.rust-lang.org/cargo/guide/" target="_blank">
+            The Cargo Guide
+        </a>
+    </li>
+
+
+                            
+    <li class="pure-menu-item">
+        <a class="pure-menu-link" href="https://doc.rust-lang.org/nightly/clippy" target="_blank">
+            Clippy Documentation
+        </a>
+    </li>
+
+                        </ul>
+                    </li>
+                </ul>
+                
+                <div id="search-input-nav">
+                    <label for="nav-search">
+                        <span class="fa-svg" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"></path></svg></span>
+                    </label>
+
+                    
+                    
+                    <input id="nav-search" name="query" type="text" aria-label="Find crate by search query" tabindex="-1" placeholder="Find crate" data-ddg-inputtype="unknown">
+                </div>
+            </form>
+        </div>
+    </div>
+</div><div class="rustdoc mod crate container-rustdoc" id="rustdoc_body_wrapper" tabindex="-1"><script async="" src="./surrealdb - Rust_files/menu.js"></script>
+<script async="" src="./surrealdb - Rust_files/index.js"></script>
+
+<iframe src="./surrealdb - Rust_files/storage-change-detection.html" width="0" height="0" style="display: none"></iframe><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button><a class="logo-container" href="https://docs.rs/surrealdb/latest/surrealdb/index.html"><img src="./surrealdb - Rust_files/icon.png" alt=""></a><h2 class="location">Crate <a href="https://docs.rs/surrealdb/latest/surrealdb/#">surrealdb</a></h2></nav><nav class="sidebar"><div class="sidebar-crate"><a class="logo-container" href="https://docs.rs/surrealdb/latest/surrealdb/index.html"><img src="./surrealdb - Rust_files/icon.png" alt="logo"></a><h2><a href="https://docs.rs/surrealdb/latest/surrealdb/index.html">surrealdb</a><span class="version">1.5.4</span></h2></div><div class="sidebar-elems"><ul class="block"><li><a id="all-types" href="https://docs.rs/surrealdb/latest/surrealdb/all.html">All Items</a></li></ul><section><ul class="block"><li><a href="https://docs.rs/surrealdb/latest/surrealdb/#modules">Modules</a></li><li><a href="https://docs.rs/surrealdb/latest/surrealdb/#structs">Structs</a></li><li><a href="https://docs.rs/surrealdb/latest/surrealdb/#enums">Enums</a></li><li><a href="https://docs.rs/surrealdb/latest/surrealdb/#traits">Traits</a></li><li><a href="https://docs.rs/surrealdb/latest/surrealdb/#types">Type Aliases</a></li></ul></section><h3>Crates</h3><ul class="block crate"><li class="current"><a href="https://docs.rs/surrealdb/latest/surrealdb/index.html">surrealdb</a></li></ul></div></nav><div class="sidebar-resizer"></div><main><div class="width-limiter"><rustdoc-search><nav class="sub">
+            <form class="search-form">
+                <span></span> <!-- This empty span is a hacky fix for Safari - See #93184 -->
+                <div id="sidebar-button" tabindex="-1">
+                    <a href="https://docs.rs/surrealdb/latest/surrealdb/all.html" title="show sidebar"></a>
+                </div>
+                <input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search">
+                <div id="help-button" tabindex="-1">
+                    <a href="https://docs.rs/surrealdb/latest/help.html" title="help">?</a>
+                </div>
+                <div id="settings-menu" tabindex="-1">
+                    <a href="https://docs.rs/surrealdb/latest/settings.html" title="settings">
+                        Settings
+                    </a>
+                </div>
+            </form>
+        </nav></rustdoc-search><section id="main-content" class="content"><div class="main-heading"><h1>Crate <a class="mod" href="https://docs.rs/surrealdb/latest/surrealdb/#">surrealdb</a><button id="copy-path" title="Copy item path to clipboard">Copy item path</button></h1><span class="out-of-band"><a class="src" href="https://docs.rs/surrealdb/latest/src/surrealdb/lib.rs.html#1-222">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>−</span>]</button></span></div><details class="toggle top-doc" open=""><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>This library provides a low-level database library implementation, a remote client
+and a query language definition, for <a href="https://surrealdb.com/">SurrealDB</a>, the ultimate cloud database for
+tomorrow’s applications. SurrealDB is a scalable, distributed, collaborative, document-graph
+database for the realtime web.</p>
+<p>This library can be used to start an embedded in-memory datastore, an embedded datastore
+persisted to disk, a browser-based embedded datastore backed by IndexedDB, or for connecting
+to a distributed <a href="https://tikv.org/">TiKV</a> key-value store.</p>
+<p>It also enables simple and advanced querying of a remote SurrealDB server from
+server-side or client-side code. All connections to SurrealDB are made over WebSockets by default,
+and automatically reconnect when the connection is terminated.</p>
+<h2 id="examples"><a class="doc-anchor" href="https://docs.rs/surrealdb/latest/surrealdb/#examples">§</a>Examples</h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>std::borrow::Cow;
+<span class="kw">use </span>serde::{Serialize, Deserialize};
+<span class="kw">use </span>serde_json::json;
+<span class="kw">use </span>surrealdb::{Error, Surreal};
+<span class="kw">use </span>surrealdb::opt::auth::Root;
+<span class="kw">use </span>surrealdb::engine::remote::ws::Ws;
+
+<span class="attr">#[derive(Serialize, Deserialize)]
+</span><span class="kw">struct </span>Person {
+    title: String,
+    name: Name,
+    marketing: bool,
+}
+
+<span class="comment">// Pro tip: Replace String with Cow&lt;'static, str&gt; to
+// avoid unnecessary heap allocations when inserting
+
+</span><span class="attr">#[derive(Serialize, Deserialize)]
+</span><span class="kw">struct </span>Name {
+    first: Cow&lt;<span class="lifetime">'static</span>, str&gt;,
+    last: Cow&lt;<span class="lifetime">'static</span>, str&gt;,
+}
+
+<span class="comment">// Install at https://surrealdb.com/install
+// and use `surreal start --user root --pass root`
+// to start a working database to take the following queries
+// See the results via `surreal sql --ns namespace --db database --pretty`
+// or https://surrealist.app/
+// followed by the query `SELECT * FROM person;`
+</span><span class="attr">#[tokio::main]
+</span><span class="kw">async fn </span>main() -&gt; <span class="prelude-ty">Result</span>&lt;(), Error&gt; {
+    <span class="kw">let </span>db = Surreal::new::&lt;Ws&gt;(<span class="string">"localhost:8000"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="comment">// Signin as a namespace, database, or root user
+    </span>db.signin(Root {
+        username: <span class="string">"root"</span>,
+        password: <span class="string">"root"</span>,
+    }).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="comment">// Select a specific namespace / database
+    </span>db.use_ns(<span class="string">"namespace"</span>).use_db(<span class="string">"database"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="comment">// Create a new person with a random ID
+    </span><span class="kw">let </span>created: Vec&lt;Person&gt; = db.create(<span class="string">"person"</span>)
+        .content(Person {
+            title: <span class="string">"Founder &amp; CEO"</span>.into(),
+            name: Name {
+                first: <span class="string">"Tobie"</span>.into(),
+                last: <span class="string">"Morgan Hitchcock"</span>.into(),
+            },
+            marketing: <span class="bool-val">true</span>,
+        })
+        .<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="comment">// Create a new person with a specific ID
+    </span><span class="kw">let </span>created: <span class="prelude-ty">Option</span>&lt;Person&gt; = db.create((<span class="string">"person"</span>, <span class="string">"jaime"</span>))
+        .content(Person {
+            title: <span class="string">"Founder &amp; COO"</span>.into(),
+            name: Name {
+                first: <span class="string">"Jaime"</span>.into(),
+                last: <span class="string">"Morgan Hitchcock"</span>.into(),
+            },
+            marketing: <span class="bool-val">false</span>,
+        })
+        .<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="comment">// Update a person record with a specific ID
+    </span><span class="kw">let </span>updated: <span class="prelude-ty">Option</span>&lt;Person&gt; = db.update((<span class="string">"person"</span>, <span class="string">"jaime"</span>))
+        .merge(<span class="macro">json!</span>({<span class="string">"marketing"</span>: <span class="bool-val">true</span>}))
+        .<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="comment">// Select all people records
+    </span><span class="kw">let </span>people: Vec&lt;Person&gt; = db.select(<span class="string">"person"</span>).<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="comment">// Perform a custom advanced query
+    </span><span class="kw">let </span>query = <span class="string">r#"
+        SELECT marketing, count()
+        FROM type::table($table)
+        GROUP BY marketing
+    "#</span>;
+
+    <span class="kw">let </span>groups = db.query(query)
+        .bind((<span class="string">"table"</span>, <span class="string">"person"</span>))
+        .<span class="kw">await</span><span class="question-mark">?</span>;
+
+    <span class="prelude-val">Ok</span>(())
+}</code></pre></div>
+</div></details><h2 id="modules" class="section-header">Modules<a href="https://docs.rs/surrealdb/latest/surrealdb/#modules" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="mod" href="https://docs.rs/surrealdb/latest/surrealdb/engine/index.html" title="mod surrealdb::engine">engine</a></div><div class="desc docblock-short">Different embedded and remote database engines</div></li><li><div class="item-name"><a class="mod" href="https://docs.rs/surrealdb/latest/surrealdb/error/index.html" title="mod surrealdb::error">error</a></div><div class="desc docblock-short">Different error types for embedded and remote databases</div></li><li><div class="item-name"><a class="mod" href="https://docs.rs/surrealdb/latest/surrealdb/method/index.html" title="mod surrealdb::method">method</a></div><div class="desc docblock-short">Methods to use when interacting with a SurrealDB instance</div></li><li><div class="item-name"><a class="mod" href="https://docs.rs/surrealdb/latest/surrealdb/opt/index.html" title="mod surrealdb::opt">opt</a></div><div class="desc docblock-short">The different options and types for use in API functions</div></li><li><div class="item-name"><a class="mod" href="https://docs.rs/surrealdb/latest/surrealdb/options/index.html" title="mod surrealdb::options">options</a></div></li><li><div class="item-name"><a class="mod" href="https://docs.rs/surrealdb/latest/surrealdb/sql/index.html" title="mod surrealdb::sql">sql</a></div><div class="desc docblock-short">The full type definitions for the SurrealQL query language</div></li></ul><h2 id="structs" class="section-header">Structs<a href="https://docs.rs/surrealdb/latest/surrealdb/#structs" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="struct" href="https://docs.rs/surrealdb/latest/surrealdb/struct.Connect.html" title="struct surrealdb::Connect">Connect</a></div><div class="desc docblock-short">The future returned when creating a new SurrealDB instance</div></li><li><div class="item-name"><a class="struct" href="https://docs.rs/surrealdb/latest/surrealdb/struct.Notification.html" title="struct surrealdb::Notification">Notification</a></div><div class="desc docblock-short">A live query notification</div></li><li><div class="item-name"><a class="struct" href="https://docs.rs/surrealdb/latest/surrealdb/struct.Response.html" title="struct surrealdb::Response">Response</a></div><div class="desc docblock-short">The response type of a <code>Surreal::query</code> request</div></li><li><div class="item-name"><a class="struct" href="https://docs.rs/surrealdb/latest/surrealdb/struct.Surreal.html" title="struct surrealdb::Surreal">Surreal</a></div><div class="desc docblock-short">A database client instance for embedded or remote databases</div></li></ul><h2 id="enums" class="section-header">Enums<a href="https://docs.rs/surrealdb/latest/surrealdb/#enums" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="enum" href="https://docs.rs/surrealdb/latest/surrealdb/enum.Action.html" title="enum surrealdb::Action">Action</a></div><div class="desc docblock-short">The action performed on a record</div></li><li><div class="item-name"><a class="enum" href="https://docs.rs/surrealdb/latest/surrealdb/enum.Error.html" title="enum surrealdb::Error">Error</a></div><div class="desc docblock-short">An error originating from the SurrealDB client library</div></li></ul><h2 id="traits" class="section-header">Traits<a href="https://docs.rs/surrealdb/latest/surrealdb/#traits" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="trait" href="https://docs.rs/surrealdb/latest/surrealdb/trait.Connection.html" title="trait surrealdb::Connection">Connection</a></div><div class="desc docblock-short">Connection trait implemented by supported engines</div></li></ul><h2 id="types" class="section-header">Type Aliases<a href="https://docs.rs/surrealdb/latest/surrealdb/#types" class="anchor">§</a></h2><ul class="item-table"><li><div class="item-name"><a class="type" href="https://docs.rs/surrealdb/latest/surrealdb/type.Result.html" title="type surrealdb::Result">Result</a></div><div class="desc docblock-short">A specialized <code>Result</code> type</div></li></ul></section></div></main></div></body></html>
