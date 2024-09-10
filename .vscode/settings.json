@@ -19,5 +19,9 @@
   ],
   "[jsonc]": {
     "editor.defaultFormatter": "vscode.json-language-features"
-  }
+  },
+  "github.copilot.chat.experimental.inlineChatCompletionTrigger.enabled": true,
+  "emmet.useInlineCompletions": true,
+  "inlineChat.experimental.enableZoneToolbar": true,
+  "inlineChat.finishOnType": true
 }
