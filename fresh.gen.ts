@@ -17,6 +17,7 @@ import * as $settings from "./routes/settings.tsx";
 import * as $Cpu from "./islands/Cpu.tsx";
 import * as $Dropdown from "./islands/Dropdown.tsx";
 import * as $Login from "./islands/Login.tsx";
+import * as $Register from "./islands/Register.tsx";
 import { type Manifest } from "$fresh/server.ts";
 
 const manifest = {
@@ -38,6 +39,7 @@ const manifest = {
     "./islands/Cpu.tsx": $Cpu,
     "./islands/Dropdown.tsx": $Dropdown,
     "./islands/Login.tsx": $Login,
+    "./islands/Register.tsx": $Register,
   },
   baseUrl: import.meta.url,
 } satisfies Manifest;

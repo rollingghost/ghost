@@ -55,14 +55,14 @@ export default function Login(user: PageProps<User>) {
                             />
                             <button
                                 type="submit"
-                                className="w-full px-3 py-2 rounded-md"
+                                className="w-full px-3 py-2 rounded-md font-bold"
                             >
-                                <i className="bi bi-chevron-right"></i>
+                                <i className="bi bi-chevron-right"></i>__ Hack
                             </button>
                             <div className="text-center">
                                 <a
                                     href="/register"
-                                    className="hover:underline"
+                                    className="hover:underline text-[#040F16] font-bold"
                                 >
                                     Don't have an account? Register
                                 </a>
