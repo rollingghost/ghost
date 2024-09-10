@@ -8,35 +8,66 @@ interface User {
     password: string;
 }
 
+interface Error {
+    error: string;
+}
+
 export const handler: Handlers = {
     async POST(req, ctx) {
         const form = await req.formData();
         const username = form.get("username");
         const password = form.get("password");
-        const resp: User = {
-            username: username as string,
-            password: password as string,
-        };
 
-        return ctx.render(resp);
+        try {
+            const res = await fetch(
+                `https://ghost.shuttleapp.rs/user/${username}`,
+            );
+            const data = await res.json();
+            if (data.password === password) {
+                const headers: Headers = new Headers();
+                const expires = new Date();
+                expires.setHours(expires.getHours() + 24);
+                headers.set(
+                    "Set-Cookie",
+                    `ghost=${data.username}; Path=/; HttpOnly; Expires=${expires.toUTCString()}`,
+                );
+                headers.set("Location", "/");
+                return new Response(null, {
+                    status: 302,
+                    headers: headers,
+                });
+            } else {
+                const resp: Error = {
+                    error: "Invalid username or password",
+                };
+                return ctx.render(resp);
+            }
+        } catch (error) {
+            return ctx.render({ error: error });
+        }
     },
 };
 
-export default function Login(user: PageProps<User>) {
+export default function Login({ data }: PageProps<User | Error>) {
     return (
         <>
             <Head>
                 <title>Ghost | Login</title>
             </Head>
             <div class="flex flex-col items-center justify-center h-screen">
-                {user.data?.username
-                    ? <LoginCookie username={useSignal(user.data.username)} />
+                {data && "username" in data
+                    ? <LoginCookie username={useSignal(data.username)} />
                     : (
                         <form
                             action="/login"
                             method="POST"
                             className="space-y-4 p-4 shadow-md rounded-md justify-items-center max-w-96"
                         >
+                            {data?.error && (
+                                <div className="text-red-500">
+                                    {data.error}
+                                </div>
+                            )}
                             <input
                                 type="text"
                                 name="username"
