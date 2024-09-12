@@ -13,4 +13,8 @@ Then start the project:
 deno task start
 ```
 
+```
+deno task build
+```
+
 This will watch the project directory and restart as necessary.
