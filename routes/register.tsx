@@ -10,7 +10,34 @@ interface Error {
     error: string;
 }
 
-export const handler: Handlers<User | Error> = {
+export const handler: Handlers = {
+    async GET(req, ctx) {
+        const cookie = req.headers.get("Cookie");
+        if (cookie) {
+            const username = cookie.split("=")[1];
+            try {
+                const res = await fetch(
+                    `https://ghost.shuttleapp.rs/user/${username}`,
+                );
+                const data = await res.json();
+                if (data.username === username) {
+                    const headers: Headers = new Headers();
+                    headers.set("Location", "/");
+                    return new Response(null, {
+                        status: 302,
+                        headers: headers,
+                    });
+                } else {
+                    return ctx.render(null);
+                }
+            } catch (_error) {
+                return ctx.render(null);
+            }
+        } else {
+            return ctx.render(null);
+        }
+    },
+
     async POST(req, ctx) {
         const form = await req.formData();
         const username = form.get("username") as string;
@@ -21,19 +48,35 @@ export const handler: Handlers<User | Error> = {
             return ctx.render({ error: "Passwords do not match" });
         }
 
-        const _responseBody: User = {
+        const responseBody: User = {
             username,
             password,
         };
 
         // Save user logic here (e.g., database operation)
+        try {
+            const resp = await fetch("https://ghost.shuttleapp.rs/user", {
+                method: "POST",
+                body: JSON.stringify(responseBody),
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
 
-        return new Response("", {
-            status: 302,
-            headers: {
-                Location: "/",
-            },
-        });
+            if (resp.status === 200) {
+                // Set cookie here and redirect to home page
+                return new Response("", {
+                    status: 302,
+                    headers: {
+                        Location: "/",
+                    },
+                });
+            } else {
+                return ctx.render({ error: "Failed to register user" });
+            }
+        } catch (error) {
+            return ctx.render({ error: error.message });
+        }
     },
 };
 
@@ -47,14 +90,14 @@ export default function Register(error: PageProps<Error>) {
                 <form
                     action="/register"
                     method="POST"
-                    className="space-y-4 p-4 shadow-md rounded-md max-w-96"
+                    class="space-y-4 p-4 shadow-md rounded-md max-w-96"
                     style={{
                         backgroundColor: "inherit",
                         color: "inherit",
                     }}
                 >
                     {error?.error && (
-                        <div className="text-red-500">
+                        <div class="text-red-500">
                             {error.error}
                         </div>
                     )}
@@ -64,7 +107,7 @@ export default function Register(error: PageProps<Error>) {
                         id="username"
                         placeholder="Username"
                         required
-                        className="w-full px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                        class="w-full px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                         style={{
                             backgroundColor: "inherit",
                             color: "inherit",
@@ -77,7 +120,7 @@ export default function Register(error: PageProps<Error>) {
                         id="password"
                         placeholder="Password"
                         required
-                        className="w-full px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                        class="w-full px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                         style={{
                             backgroundColor: "inherit",
                             color: "inherit",
@@ -90,7 +133,7 @@ export default function Register(error: PageProps<Error>) {
                         id="confirmPassword"
                         placeholder="Confirm Password"
                         required
-                        className="w-full px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+                        class="w-full px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
                         style={{
                             backgroundColor: "inherit",
                             color: "inherit",
@@ -99,19 +142,19 @@ export default function Register(error: PageProps<Error>) {
                     />
                     <button
                         type="submit"
-                        className="w-full py-2 rounded-md font-bold"
+                        class="w-full py-2 rounded-md font-bold"
                         style={{
                             backgroundColor: "inherit",
                             color: "inherit",
                             border: "none",
                         }}
                     >
-                        <i className="bi bi-chevron-right"></i>__ Hack
+                        <i class="bi bi-chevron-right"></i>__ Hack
                     </button>
-                    <p className="mt-4 text-center">
+                    <p class="mt-4 text-center">
                         <a
                             href="/login"
-                            className="hover:underline text-[#040F16] font-bold"
+                            class="hover:underline text-[#040F16] font-bold"
                         >
                             Already have an account? Login
                         </a>

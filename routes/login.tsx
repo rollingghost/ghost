@@ -13,6 +13,33 @@ interface Error {
 }
 
 export const handler: Handlers = {
+    async GET(req, ctx) {
+        const cookie = req.headers.get("Cookie");
+        if (cookie) {
+            const username = cookie.split("=")[1];
+            try {
+                const res = await fetch(
+                    `https://ghost.shuttleapp.rs/user/${username}`,
+                );
+                const data = await res.json();
+                if (data.username === username) {
+                    const headers: Headers = new Headers();
+                    headers.set("Location", "/");
+                    return new Response(null, {
+                        status: 302,
+                        headers: headers,
+                    });
+                } else {
+                    return ctx.render(null);
+                }
+            } catch (_error) {
+                return ctx.render(null);
+            }
+        } else {
+            return ctx.render(null);
+        }
+    },
+
     async POST(req, ctx) {
         const form = await req.formData();
         const username = form.get("username");
@@ -61,10 +88,10 @@ export default function Login({ data }: PageProps<User | Error>) {
                         <form
                             action="/login"
                             method="POST"
-                            className="space-y-4 p-4 shadow-md rounded-md justify-items-center max-w-96"
+                            class="space-y-4 p-4 shadow-md rounded-md justify-items-center max-w-96"
                         >
                             {data?.error && (
-                                <div className="text-red-500">
+                                <div class="text-red-500">
                                     {data.error}
                                 </div>
                             )}
@@ -74,7 +101,7 @@ export default function Login({ data }: PageProps<User | Error>) {
                                 id="username"
                                 placeholder="Username"
                                 required
-                                className="w-full px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-transparent"
+                                class="w-full px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-transparent"
                             />
                             <input
                                 type="password"
@@ -82,18 +109,18 @@ export default function Login({ data }: PageProps<User | Error>) {
                                 id="password"
                                 placeholder="Password"
                                 required
-                                className="w-full px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-transparent"
+                                class="w-full px-3 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-transparent"
                             />
                             <button
                                 type="submit"
-                                className="w-full px-3 py-2 rounded-md font-bold"
+                                class="w-full px-3 py-2 rounded-md font-bold"
                             >
-                                <i className="bi bi-chevron-right"></i>__ Hack
+                                <i class="bi bi-chevron-right"></i>__ Hack
                             </button>
-                            <div className="text-center">
+                            <div class="text-center">
                                 <a
                                     href="/register"
-                                    className="hover:underline text-[#040F16] font-bold"
+                                    class="hover:underline text-[#040F16] font-bold"
                                 >
                                     Don't have an account? Register
                                 </a>
