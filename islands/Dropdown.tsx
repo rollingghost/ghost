@@ -4,11 +4,12 @@ interface DropdownProps {
     dropped: Signal<boolean>;
 }
 
-export const handler: Handlers = {};
-
 export default function Droppdown(
     drop: DropdownProps,
 ) {
+    const ghostGetCookie = (name: string) => {
+        return document.cookie.split("; ").filter((fname) => fname === name);
+    };
     return (
         <>
             <button
